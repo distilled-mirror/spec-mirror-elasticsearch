@@ -17,7 +17,7 @@ This documentation is derived from the `9.5` branch of the [elasticsearch-specif
 
 ## Topics
 
-### [Authentications](https://www.elastic.co/docs/api/doc/elasticsearch/v9/authentication.md)
+### [Authentication](https://www.elastic.co/docs/api/doc/elasticsearch/v9/authentication.md)
 
 
 ## Endpoints
