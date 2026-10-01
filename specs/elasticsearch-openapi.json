@@ -31286,6 +31286,10 @@
                     "description": "If a real-time datafeed has never seen any data (including during any initial training period), it automatically\nstops and closes the associated job after this many real-time searches return no documents. In other words,\nit stops after `frequency` times `max_empty_searches` of real-time operation. If not set, a datafeed with no\nend time that sees no data remains started until it is explicitly stopped. By default, it is not set.",
                     "type": "number"
                   },
+                  "max_consecutive_extraction_failures": {
+                    "description": "The maximum number of consecutive real-time data extraction failures the datafeed tolerates before it\nautomatically stops itself, leaving the associated job open. The consecutive-failure counter resets on any\ncycle that extracts successfully, including empty-data cycles. If not set, the threshold defaults to roughly\none day's worth of searches based on the datafeed `frequency` (floored at 1). Set to `-1` to disable auto-stop\nand retry indefinitely. Values of `0` or less than `-1` are rejected.",
+                    "type": "number"
+                  },
                   "query": {
                     "description": "The Elasticsearch query domain-specific language (DSL). This value corresponds to the query object in an\nElasticsearch search POST body. All the options that are supported by Elasticsearch can be used, as this\nobject is passed verbatim to Elasticsearch.",
                     "default": "{\"match_all\": {\"boost\": 1}}",
@@ -31413,6 +31417,9 @@
                       ]
                     },
                     "max_empty_searches": {
+                      "type": "number"
+                    },
+                    "max_consecutive_extraction_failures": {
                       "type": "number"
                     },
                     "query": {
@@ -37213,6 +37220,10 @@
                     "description": "If a real-time datafeed has never seen any data (including during any initial training period), it automatically\nstops and closes the associated job after this many real-time searches return no documents. In other words,\nit stops after `frequency` times `max_empty_searches` of real-time operation. If not set, a datafeed with no\nend time that sees no data remains started until it is explicitly stopped. By default, it is not set.",
                     "type": "number"
                   },
+                  "max_consecutive_extraction_failures": {
+                    "description": "The maximum number of consecutive real-time data extraction failures the datafeed tolerates before it\nautomatically stops itself, leaving the associated job open. The consecutive-failure counter resets on any\ncycle that extracts successfully, including empty-data cycles. If not set, the threshold defaults to roughly\none day's worth of searches based on the datafeed `frequency` (floored at 1). Set to `-1` to disable auto-stop\nand retry indefinitely. Values of `0` or less than `-1` are rejected.",
+                    "type": "number"
+                  },
                   "query": {
                     "description": "The Elasticsearch query domain-specific language (DSL). This value corresponds to the query object in an\nElasticsearch search POST body. All the options that are supported by Elasticsearch can be used, as this\nobject is passed verbatim to Elasticsearch. Note that if you change the query, the analyzed data is also\nchanged. Therefore, the time required to learn might be long and the understandability of the results is\nunpredictable. If you want to make significant changes to the source data, it is recommended that you\nclone the job and datafeed and make the amendments in the clone. Let both run in parallel and close one\nwhen you are satisfied with the results of the job.",
                     "default": "{\"match_all\": {\"boost\": 1}}",
@@ -37333,6 +37344,9 @@
                       ]
                     },
                     "max_empty_searches": {
+                      "type": "number"
+                    },
+                    "max_consecutive_extraction_failures": {
                       "type": "number"
                     },
                     "query": {
@@ -46388,6 +46402,10 @@
                     "description": "Whether the account can authenticate.\nTokens can still be created for a disabled account; they just cannot be used until the account is enabled.",
                     "default": true,
                     "type": "boolean"
+                  },
+                  "description": {
+                    "description": "A free-text description of the account, as sent on the last PUT of the account.\nIt has no meaning to Elasticsearch. Absent when the account has no description.",
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -123627,6 +123645,10 @@
             "description": "If a real-time datafeed has never seen any data (including during any initial training period) then it will automatically stop itself and close its associated job after this many real-time searches that return no documents. In other words, it will stop after `frequency` times `max_empty_searches` of real-time operation. If not set then a datafeed with no end time that sees no data will remain started until it is explicitly stopped.",
             "type": "number"
           },
+          "max_consecutive_extraction_failures": {
+            "description": "The maximum number of consecutive real-time data extraction failures the datafeed tolerates before it automatically stops itself, leaving the associated job open. The consecutive-failure counter resets on any cycle that extracts successfully, including empty-data cycles. If not set, the threshold defaults to roughly one day's worth of searches based on the datafeed `frequency` (floored at 1). Set to `-1` to disable auto-stop and retry indefinitely. Values of `0` or less than `-1` are rejected.",
+            "type": "number"
+          },
           "query": {
             "description": "The Elasticsearch query domain-specific language (DSL). This value corresponds to the query object in an Elasticsearch search POST body. All the options that are supported by Elasticsearch can be used, as this object is passed verbatim to Elasticsearch.",
             "allOf": [
@@ -131345,6 +131367,22 @@
               }
             ]
           },
+          "profile": {
+            "description": "A privilege that grants the ability to write the `data` and `access` sections of user profiles for the specified applications.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/security._types.WriteProfileGlobalUserPrivileges"
+              }
+            ]
+          },
+          "role": {
+            "description": "A privilege that grants the ability to manage roles that are scoped to the specified indices.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/security._types.ManageRolesGlobalUserPrivileges"
+              }
+            ]
+          },
           "data_source": {
             "description": "A list of data source privilege entries, used to grant access to ES|QL data sources.",
             "x-state": "Generally available; Added in 9.5.0",
@@ -131382,6 +131420,69 @@
         },
         "required": [
           "applications"
+        ]
+      },
+      "security._types.WriteProfileGlobalUserPrivileges": {
+        "type": "object",
+        "properties": {
+          "write": {
+            "description": "The applications for which user profile data can be written.\nAbsent when the `profile` section is present but grants no privileges.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/security._types.ManageUserPrivileges"
+              }
+            ]
+          }
+        }
+      },
+      "security._types.ManageRolesGlobalUserPrivileges": {
+        "type": "object",
+        "properties": {
+          "manage": {
+            "description": "The index-scoped role management privileges.\nAbsent when the `role` section is present but grants no privileges.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/security._types.ManageRolesPrivileges"
+              }
+            ]
+          }
+        }
+      },
+      "security._types.ManageRolesPrivileges": {
+        "type": "object",
+        "properties": {
+          "indices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/security._types.ManageRolesIndexPermissions"
+            }
+          }
+        },
+        "required": [
+          "indices"
+        ]
+      },
+      "security._types.ManageRolesIndexPermissions": {
+        "type": "object",
+        "properties": {
+          "names": {
+            "description": "A list of indices (or index name patterns) that the owners of the role can manage roles for.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "privileges": {
+            "description": "The index privileges that the managed roles are allowed to grant on the specified indices.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "names",
+          "privileges"
         ]
       },
       "security._types.DataSourcePrivileges": {
@@ -132333,7 +132434,7 @@
             ]
           },
           "roles": {
-            "description": "The names of the roles granted to the account, as they were given when it was created.\nThey are resolved when the account authenticates.",
+            "description": "The names of the roles granted to the account, as sent on the last PUT of the account.\nThey are resolved when the account authenticates.",
             "type": "array",
             "items": {
               "type": "string"
@@ -132342,6 +132443,10 @@
           "enabled": {
             "description": "Whether the account can authenticate.",
             "type": "boolean"
+          },
+          "description": {
+            "description": "A free-text description of the account, as sent on the last PUT of the account.\nIt has no meaning to Elasticsearch. Absent when the account has no description.",
+            "type": "string"
           }
         },
         "required": [
