@@ -4,7 +4,7 @@ OpenAPI file: https://www.elastic.co/docs/api/doc/elasticsearch/v9.json
 
 ## Description
 
-Last update on Oct 6, 2026.
+Last update on Nov 2, 2026.
 Elasticsearch provides REST APIs that are used by the UI components and can be called directly to configure and access Elasticsearch features.
 ## Documentation source and versions
 This documentation is derived from the `9.5` branch of the [elasticsearch-specification](https://github.com/elastic/elasticsearch-specification) repository. It is provided under license [Attribution-NonCommercial-NoDerivatives 4.0 International](https://creativecommons.org/licenses/by-nc-nd/4.0/).
@@ -36,7 +36,7 @@ This documentation is derived from the `9.5` branch of the [elasticsearch-specif
 
 ### [Compact and aligned text (CAT)](https://www.elastic.co/docs/api/doc/elasticsearch/v9/group/endpoint-cat.md)
 
-- [Get aliases
+- [Get a compact list of aliases
 ](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-aliases.md)
 
 - [Get shard allocation information
@@ -45,7 +45,7 @@ This documentation is derived from the `9.5` branch of the [elasticsearch-specif
 - [Get circuit breakers statistics
 ](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-circuit-breaker.md)
 
-- [Get component templates
+- [Get a compact list of component templates
 ](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-component-templates.md)
 
 - [Get a document count
@@ -54,11 +54,11 @@ This documentation is derived from the `9.5` branch of the [elasticsearch-specif
 - [Get field data cache information
 ](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-fielddata.md)
 
-- [Get the cluster health status](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-health.md)
+- [Get a compact cluster health summary](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-health.md)
 
 - [Get CAT help](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-help.md)
 
-- [Get index information
+- [Get a compact list of indices
 ](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-indices.md)
 
 - [Get master node information](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-master.md)
@@ -77,7 +77,7 @@ This documentation is derived from the `9.5` branch of the [elasticsearch-specif
 
 - [Get node attribute information](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-nodeattrs.md)
 
-- [Get node information](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-nodes.md)
+- [Get a compact list of nodes](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-nodes.md)
 
 - [Get pending task information](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-pending-tasks.md)
 
@@ -86,7 +86,7 @@ This documentation is derived from the `9.5` branch of the [elasticsearch-specif
 - [Get shard recovery information
 ](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-recovery.md)
 
-- [Get snapshot repository information](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-repositories.md)
+- [Get a compact list of snapshot repositories](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-repositories.md)
 
 - [Get segment information
 ](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-segments.md)
@@ -94,10 +94,10 @@ This documentation is derived from the `9.5` branch of the [elasticsearch-specif
 - [Get shard information
 ](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-shards.md)
 
-- [Get snapshot information
+- [Get a compact list of snapshots
 ](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-snapshots.md)
 
-- [Get task information](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-tasks.md)
+- [Get a compact list of running tasks](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-tasks.md)
 
 - [Get index template information
 ](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cat-templates.md)
@@ -125,7 +125,7 @@ This documentation is derived from the `9.5` branch of the [elasticsearch-specif
 - [Get the cluster health status
 ](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cluster-health.md)
 
-- [Get cluster info](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cluster-info.md)
+- [Get cluster subsystem info](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cluster-info.md)
 
 - [Get the pending cluster tasks](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cluster-pending-tasks.md)
 
@@ -520,7 +520,7 @@ This documentation is derived from the `9.5` branch of the [elasticsearch-specif
 - [Force a merge
 ](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-indices-forcemerge.md)
 
-- [Get mapping definitions
+- [Get field mapping definitions
 ](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-indices-get-field-mapping.md)
 
 - [Get mapping definitions
@@ -575,7 +575,7 @@ This documentation is derived from the `9.5` branch of the [elasticsearch-specif
 - [Get index statistics
 ](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-indices-stats.md)
 
-- [Create or update an alias](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-indices-update-aliases.md)
+- [Update aliases and delete indices atomically](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-indices-update-aliases.md)
 
 - [Validate a query
 ](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-indices-validate-query.md)
@@ -1105,7 +1105,7 @@ This documentation is derived from the `9.5` branch of the [elasticsearch-specif
 - [Get cache statistics
 ](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-searchable-snapshots-cache-stats.md)
 
-- [Clear the cache
+- [Clear the searchable snapshots shared cache
 ](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-searchable-snapshots-clear-cache.md)
 
 - [Mount a snapshot](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-searchable-snapshots-mount.md)
