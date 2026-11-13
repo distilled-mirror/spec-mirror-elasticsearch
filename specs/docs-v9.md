@@ -1,3 +1,5 @@
+> For the complete documentation index, see [llms.txt](https://www.elastic.co/docs/api/doc/elasticsearch/v9/llms.txt)
+
 # Elasticsearch API
 
 OpenAPI file: https://www.elastic.co/docs/api/doc/elasticsearch/v9.json

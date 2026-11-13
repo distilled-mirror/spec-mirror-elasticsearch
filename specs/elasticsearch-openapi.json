@@ -15665,6 +15665,21 @@
           },
           {
             "in": "query",
+            "name": "expand_wildcards",
+            "description": "Type of index that wildcard patterns can match.\nIf the request can target data streams, this argument determines whether wildcard expressions match hidden data streams.\nSupports comma-separated values, such as `open,hidden`.",
+            "deprecated": false,
+            "schema": {
+              "default": "open",
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/_types.ExpandWildcards"
+                }
+              ]
+            },
+            "style": "form"
+          },
+          {
+            "in": "query",
             "name": "master_timeout",
             "description": "Period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error.",
             "deprecated": false,
@@ -41060,6 +41075,55 @@
           }
         },
         "x-state": "Generally available; Added in 7.10.0",
+        "x-metaTags": [
+          {
+            "content": "Elasticsearch",
+            "name": "product_name"
+          }
+        ]
+      }
+    },
+    "/_prometheus/api/v1/status/buildinfo": {
+      "get": {
+        "tags": [
+          "prometheus"
+        ],
+        "summary": "Get Prometheus build information",
+        "description": "Get Elasticsearch build information in the format of the Prometheus `/api/v1/status/buildinfo` endpoint.\nPrometheus-compatible clients, such as Grafana, call this endpoint to identify the backend and the features it supports.",
+        "operationId": "prometheus-status-buildinfo",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/prometheus.status_buildinfo-200"
+          }
+        },
+        "x-state": "Technical preview; Added in 9.5.0",
+        "x-metaTags": [
+          {
+            "content": "Elasticsearch",
+            "name": "product_name"
+          }
+        ]
+      }
+    },
+    "/_prometheus/{index}/api/v1/status/buildinfo": {
+      "get": {
+        "tags": [
+          "prometheus"
+        ],
+        "summary": "Get Prometheus build information",
+        "description": "Get Elasticsearch build information in the format of the Prometheus `/api/v1/status/buildinfo` endpoint.\nPrometheus-compatible clients, such as Grafana, call this endpoint to identify the backend and the features it supports.",
+        "operationId": "prometheus-status-buildinfo-1",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/prometheus.status_buildinfo-index"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/prometheus.status_buildinfo-200"
+          }
+        },
+        "x-state": "Technical preview; Added in 9.5.0",
         "x-metaTags": [
           {
             "content": "Elasticsearch",
@@ -71243,11 +71307,7 @@
             }
           },
           "routing": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/_types.Routing"
-              }
-            ]
+            "type": "string"
           },
           "version": {
             "allOf": [
@@ -71265,20 +71325,6 @@
             ]
           }
         }
-      },
-      "_types.Routing": {
-        "description": "Only to be used in query and path parameters, as the array form is actually a csv",
-        "oneOf": [
-          {
-            "type": "string"
-          },
-          {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        ]
       },
       "_types.VersionType": {
         "type": "string",
@@ -78962,6 +79008,20 @@
           "none"
         ]
       },
+      "_types.Routing": {
+        "description": "Only to be used in query and path parameters, as the array form is actually a csv",
+        "oneOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ]
+      },
       "_types.SearchType": {
         "type": "string",
         "enum": [
@@ -79059,8 +79119,26 @@
             "$ref": "#/components/schemas/_global.bulk.WriteOperation"
           },
           {
-            "type": "object"
+            "type": "object",
+            "properties": {
+              "op_type": {
+                "description": "Set to `create` to only index the document if it does not already exist.",
+                "default": "index",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/_types.OpType"
+                  }
+                ]
+              }
+            }
           }
+        ]
+      },
+      "_types.OpType": {
+        "type": "string",
+        "enum": [
+          "index",
+          "create"
         ]
       },
       "_global.bulk.WriteOperation": {
@@ -79071,11 +79149,39 @@
           {
             "type": "object",
             "properties": {
+              "version": {
+                "description": "The explicit version number for concurrency control.\nIt must be a non-negative long number.\nThis parameter is not supported for `update` actions.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/_types.VersionNumber"
+                  }
+                ]
+              },
+              "version_type": {
+                "description": "The version type.\nThis parameter is not supported for `update` actions.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/_types.VersionType"
+                  }
+                ]
+              },
               "dynamic_templates": {
                 "description": "A map from the full name of fields to the name of dynamic templates.\nIt defaults to an empty map.\nIf a name matches a dynamic template, that template will be applied regardless of other match predicates defined in the template.\nIf a field is already defined in the mapping, then this parameter won't be used.",
+                "x-state": "Generally available; Added in 7.13.0",
                 "type": "object",
                 "additionalProperties": {
                   "type": "string"
+                }
+              },
+              "dynamic_template_params": {
+                "description": "A map from the full name of fields to the parameters to pass to the dynamic template selected for that field in `dynamic_templates`.\nEach value is a map from parameter names to parameter values.\nThe dynamic template can reference a parameter with a placeholder such as `{unit:}`, where the text after the colon is the default value.",
+                "x-state": "Generally available; Added in 9.3.0",
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
                 }
               },
               "pipeline": {
@@ -79085,6 +79191,19 @@
               "require_alias": {
                 "description": "If `true`, the request's actions must target an index alias.",
                 "default": false,
+                "x-state": "Generally available; Added in 7.10.0",
+                "type": "boolean"
+              },
+              "require_data_stream": {
+                "description": "If `true`, the action must target a data stream (existing or to be created).",
+                "default": false,
+                "x-state": "Generally available; Added in 8.13.0",
+                "type": "boolean"
+              },
+              "list_executed_pipelines": {
+                "description": "If `true`, the response includes the ingest pipelines that were run for this action.",
+                "default": false,
+                "x-state": "Generally available; Added in 8.12.0",
                 "type": "boolean"
               }
             }
@@ -79124,20 +79243,6 @@
                 "$ref": "#/components/schemas/_types.SequenceNumber"
               }
             ]
-          },
-          "version": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/_types.VersionNumber"
-              }
-            ]
-          },
-          "version_type": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/_types.VersionType"
-              }
-            ]
           }
         }
       },
@@ -79162,11 +79267,30 @@
               "require_alias": {
                 "description": "If `true`, the request's actions must target an index alias.",
                 "default": false,
+                "x-state": "Generally available; Added in 7.10.0",
                 "type": "boolean"
               },
               "retry_on_conflict": {
                 "description": "The number of times an update should be retried in the case of a version conflict.",
                 "type": "number"
+              },
+              "pipeline": {
+                "description": "The ID of the pipeline to use to preprocess the `upsert` document, if one is created.\nIf the index has a default ingest pipeline specified, setting the value to `_none` turns off the default ingest pipeline for this request.\nIf a final pipeline is configured, it will always run regardless of the value of this parameter.",
+                "type": "string"
+              },
+              "list_executed_pipelines": {
+                "description": "If `true`, the response includes the ingest pipelines that were run for the `upsert` document, if one is created.",
+                "default": false,
+                "x-state": "Generally available; Added in 8.12.0",
+                "type": "boolean"
+              },
+              "_source": {
+                "description": "If `false`, source retrieval is turned off.\nYou can also specify a comma-separated list of the fields you want to retrieve.\nIf set, it overrides the `_source` value in the update source line.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/_global.search._types.SourceConfig"
+                  }
+                ]
               }
             }
           }
@@ -79178,7 +79302,25 @@
             "$ref": "#/components/schemas/_global.bulk.OperationBase"
           },
           {
-            "type": "object"
+            "type": "object",
+            "properties": {
+              "version": {
+                "description": "The explicit version number for concurrency control.\nIt must be a non-negative long number.\nThis parameter is not supported for `update` actions.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/_types.VersionNumber"
+                  }
+                ]
+              },
+              "version_type": {
+                "description": "The version type.\nThis parameter is not supported for `update` actions.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/_types.VersionType"
+                  }
+                ]
+              }
+            }
           }
         ]
       },
@@ -79213,6 +79355,18 @@
             "default": false,
             "type": "boolean"
           },
+          "if_seq_no": {
+            "description": "Only perform the update if the document has this sequence number.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/_types.SequenceNumber"
+              }
+            ]
+          },
+          "if_primary_term": {
+            "description": "Only perform the update if the document has this primary term.",
+            "type": "number"
+          },
           "_source": {
             "description": "If `false`, source retrieval is turned off.\nYou can also specify a comma-separated list of the fields you want to retrieve.",
             "default": "true",
@@ -79232,7 +79386,7 @@
         "type": "object",
         "properties": {
           "_id": {
-            "description": "The document ID associated with the operation.",
+            "description": "The document ID associated with the operation.\nIt is `null` when an `index` or `create` operation without an explicit `_id` fails before Elasticsearch generates an ID for the document.\nElasticsearch generates the ID when it routes the document to a shard, so the ID is still `null` for failures that happen earlier, such as an ingest pipeline error, a missing or closed target index, a failed `require_alias` or `require_data_stream` check, or missing required routing.\n`update` and `delete` operations always include an ID.",
             "oneOf": [
               {
                 "type": "string"
@@ -79346,11 +79500,7 @@
             "type": "number"
           },
           "_routing": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/_types.Routing"
-              }
-            ]
+            "type": "string"
           },
           "_source": {
             "type": "object",
@@ -103653,11 +103803,7 @@
             "type": "number"
           },
           "_routing": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/_types.Routing"
-              }
-            ]
+            "type": "string"
           },
           "_source": {
             "type": "object"
@@ -103853,12 +103999,8 @@
             "type": "boolean"
           },
           "routing": {
-            "description": "A custom value used to route operations to a specific shard.\nNot allowed when `index.slice.enabled` is `true` for the target index; use `_slice` instead.",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/_types.Routing"
-              }
-            ]
+            "description": "A custom value used to route operations to a specific shard, or multiple comma separated values.\nNot allowed when `index.slice.enabled` is `true` for the target index; use `_slice` instead.",
+            "type": "string"
           },
           "search_type": {
             "allOf": [
@@ -106017,13 +106159,6 @@
           "phase"
         ]
       },
-      "_types.OpType": {
-        "type": "string",
-        "enum": [
-          "index",
-          "create"
-        ]
-      },
       "indices._types.IndicesBlockOptions": {
         "type": "string",
         "enum": [
@@ -106796,7 +106931,7 @@
             "type": "boolean"
           },
           "template": {
-            "description": "Name of the index template used to create the data stream’s backing indices.\nThe template’s index pattern must match the name of this data stream.",
+            "description": "Name of the index template used to create the data stream’s backing indices.\nThe template’s index pattern must match the name of this data stream.\nThis property is omitted if no index template currently matches the data stream, for example on a cross-cluster replication follower cluster that has no matching local template.\nFor replicated data streams (`replicated` is `true`), the value is the local index template that matches the data stream name, which might not be the template that created the backing indices on the leader cluster.",
             "allOf": [
               {
                 "$ref": "#/components/schemas/_types.Name"
@@ -106830,7 +106965,6 @@
           "rollover_on_write",
           "settings",
           "status",
-          "template",
           "timestamp_field"
         ]
       },
@@ -119962,11 +120096,7 @@
           },
           "routing": {
             "description": "The key for the primary shard the document resides on. Required if routing is used during indexing.\nNot allowed when `index.slice.enabled` is `true` for the target index; use `_slice` instead.",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/_types.Routing"
-              }
-            ]
+            "type": "string"
           },
           "_source": {
             "description": "If `false`, excludes all _source fields.",
@@ -127748,11 +127878,7 @@
           },
           "routing": {
             "description": "Custom value used to route operations to a specific shard.\nNot allowed when `index.slice.enabled` is `true` for the target index; use `_slice` instead.",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/_types.Routing"
-              }
-            ]
+            "type": "string"
           },
           "term_statistics": {
             "description": "If true, the response includes term frequency and document frequency.",
@@ -131756,6 +131882,41 @@
           "since",
           "timestamp",
           "aggregations"
+        ]
+      },
+      "prometheus.status_buildinfo.BuildInfo": {
+        "type": "object",
+        "properties": {
+          "application": {
+            "description": "The name of the application. It is always `Elasticsearch`.",
+            "type": "string"
+          },
+          "version": {
+            "description": "The Elasticsearch version.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/_types.VersionString"
+              }
+            ]
+          },
+          "revision": {
+            "description": "The commit hash of the Elasticsearch build.",
+            "type": "string"
+          },
+          "buildDate": {
+            "description": "The date of the Elasticsearch build.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/_types.DateTime"
+              }
+            ]
+          }
+        },
+        "required": [
+          "application",
+          "version",
+          "revision",
+          "buildDate"
         ]
       },
       "query_rules._types.QueryRule": {
@@ -149266,6 +149427,41 @@
           }
         }
       },
+      "prometheus.status_buildinfo-200": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "description": "The status of the request. It is always `success`.",
+                  "type": "string"
+                },
+                "data": {
+                  "description": "The Elasticsearch build information.",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/prometheus.status_buildinfo.BuildInfo"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "status",
+                "data"
+              ]
+            },
+            "examples": {
+              "PrometheusStatusBuildinfoResponseExample1": {
+                "summary": "A successful response",
+                "description": "A successful response from `GET /_prometheus/api/v1/status/buildinfo`.",
+                "value": "{\n  \"status\": \"success\",\n  \"data\": {\n    \"application\": \"Elasticsearch\",\n    \"version\": \"9.5.0\",\n    \"revision\": \"00000000\",\n    \"buildDate\": \"2026-07-09T22:10:13.578182715Z\"\n  }\n}"
+              }
+            }
+          }
+        }
+      },
       "put_script-200": {
         "description": "",
         "content": {
@@ -160041,6 +160237,17 @@
         },
         "style": "form"
       },
+      "prometheus.status_buildinfo-index": {
+        "in": "path",
+        "name": "index",
+        "description": "An index pattern, accepted for consistency with the other Prometheus endpoints.\nThe response doesn't depend on it.",
+        "required": true,
+        "deprecated": false,
+        "schema": {
+          "$ref": "#/components/schemas/_types.IndexName"
+        },
+        "style": "simple"
+      },
       "put_script-id": {
         "in": "path",
         "name": "id",
@@ -167366,11 +167573,7 @@
                     "url": "https://www.elastic.co/docs/reference/elasticsearch/rest-apis/search-shard-routing"
                   },
                   "description": "A custom value that is used to route operations to a specific shard.",
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/_types.Routing"
-                    }
-                  ]
+                  "type": "string"
                 },
                 "version": {
                   "description": "If `true`, returns the document version as part of a hit.",
