@@ -7,11 +7,12 @@
 > ## Documentation source and versions
 > This documentation is derived from the `9.5` branch of the [elasticsearch-specification](https://github.com/elastic/elasticsearch-specification) repository. It is provided under license [Attribution-NonCommercial-NoDerivatives 4.0 International](https://creativecommons.org/licenses/by-nc-nd/4.0/).
 
+[Documentation](https://www.elastic.co/docs/api/doc/elasticsearch/v9.md)
+
 OpenAPI file: https://www.elastic.co/docs/api/doc/elasticsearch/v9.json
 
-## Servers
-
-- http://api.example.com: http://api.example.com ()
+## [Servers](https://www.elastic.co/docs/api/doc/elasticsearch/v9/servers.md)
+- http://api.example.com: http://api.example.com
 
 
 ## Topics
