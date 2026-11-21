@@ -1474,4 +1474,9 @@ OpenAPI file: https://www.elastic.co/docs/api/doc/elasticsearch/v9.json
 
 
 
+## Other versions (branches)
+
+- [main (llms.txt)](https://www.elastic.co/docs/api/doc/elasticsearch/llms.txt)
+- [v8 (llms.txt)](https://www.elastic.co/docs/api/doc/elasticsearch/v8/llms.txt)
+
 [Powered by Bump.sh](https://bump.sh)
