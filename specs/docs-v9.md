@@ -2,10 +2,11 @@
 
 # Elasticsearch API
 
-> Last update on Nov 2, 2026.
+> Last update on Nov 23, 2026.
 > Elasticsearch provides REST APIs that are used by the UI components and can be called directly to configure and access Elasticsearch features.
 > ## Documentation source and versions
-> This documentation is derived from the `9.5` branch of the [elasticsearch-specification](https://github.com/elastic/elasticsearch-specification) repository. It is provided under license [Attribution-NonCommercial-NoDerivatives 4.0 International](https://creativecommons.org/licenses/by-nc-nd/4.0/).
+> This documentation is derived from the `main` branch of the [elasticsearch-specification](https://github.com/elastic/elasticsearch-specification) repository. It is provided under license [Attribution-NonCommercial-NoDerivatives 4.0 International](https://creativecommons.org/licenses/by-nc-nd/4.0/).
+> This documentation contains work-in-progress information for future Elastic Stack releases.
 
 [Documentation](https://www.elastic.co/docs/api/doc/elasticsearch/v9.md)
 
@@ -957,6 +958,12 @@ OpenAPI file: https://www.elastic.co/docs/api/doc/elasticsearch/v9.json
 - [Get feature migration information](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-migration-get-feature-upgrade-status.md)
 
 - [Start the feature migration](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-migration-post-feature-upgrade.md)
+
+
+### [Prometheus](https://www.elastic.co/docs/api/doc/elasticsearch/v9/group/endpoint-prometheus.md)
+
+- [Get Prometheus build information
+](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-prometheus-status-buildinfo.md)
 
 
 ### [Query rules](https://www.elastic.co/docs/api/doc/elasticsearch/v9/group/endpoint-query_rules.md)
