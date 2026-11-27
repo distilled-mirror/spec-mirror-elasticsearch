@@ -448,6 +448,12 @@ This documentation contains work-in-progress information for future Elastic Stac
 - [Get deprecation information](https://www.elastic.co/docs/api/elasticsearch/v9/operation/operation-migration-deprecations): `GET` `/{index}/_migration/deprecations`, `GET` `/_migration/deprecations`
 ### [Prometheus](https://www.elastic.co/docs/api/elasticsearch/v9/group/endpoint-prometheus)
 
+- [Get Prometheus label values](https://www.elastic.co/docs/api/elasticsearch/v9/operation/operation-prometheus-label-values): `GET` `/_prometheus/{index}/api/v1/label/{name}/values`, `GET` `/_prometheus/api/v1/label/{name}/values`
+- [Get Prometheus label names](https://www.elastic.co/docs/api/elasticsearch/v9/operation/operation-prometheus-labels): `POST` (also `GET`) `/_prometheus/{index}/api/v1/labels`, `POST` (also `GET`) `/_prometheus/api/v1/labels`
+- [Get Prometheus metric metadata](https://www.elastic.co/docs/api/elasticsearch/v9/operation/operation-prometheus-metadata): `GET` `/_prometheus/{index}/api/v1/metadata`, `GET` `/_prometheus/api/v1/metadata`
+- [Run a PromQL instant query](https://www.elastic.co/docs/api/elasticsearch/v9/operation/operation-prometheus-query): `POST` (also `GET`) `/_prometheus/{index}/api/v1/query`, `POST` (also `GET`) `/_prometheus/api/v1/query`
+- [Run a PromQL range query](https://www.elastic.co/docs/api/elasticsearch/v9/operation/operation-prometheus-query-range): `POST` (also `GET`) `/_prometheus/{index}/api/v1/query_range`, `POST` (also `GET`) `/_prometheus/api/v1/query_range`
+- [Find Prometheus series](https://www.elastic.co/docs/api/elasticsearch/v9/operation/operation-prometheus-series): `POST` (also `GET`) `/_prometheus/{index}/api/v1/series`, `POST` (also `GET`) `/_prometheus/api/v1/series`
 - [Get Prometheus build information](https://www.elastic.co/docs/api/elasticsearch/v9/operation/operation-prometheus-status-buildinfo): `GET` `/_prometheus/{index}/api/v1/status/buildinfo`, `GET` `/_prometheus/api/v1/status/buildinfo`
 ### [Query rules](https://www.elastic.co/docs/api/elasticsearch/v9/group/endpoint-query_rules)
 
