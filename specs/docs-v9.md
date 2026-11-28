@@ -1,6 +1,6 @@
 ---
 type: api
-title: Elasticsearch API (v9)
+title: "Elasticsearch API (v9)"
 description: "Elasticsearch provides REST APIs that are used by the UI components and can be called directly to configure and access Elasticsearch features."
 url: https://www.elastic.co/docs/api/elasticsearch
 resource: https://www.elastic.co/docs/api/elasticsearch
@@ -448,6 +448,7 @@ This documentation contains work-in-progress information for future Elastic Stac
 - [Get deprecation information](https://www.elastic.co/docs/api/elasticsearch/v9/operation/operation-migration-deprecations): `GET` `/{index}/_migration/deprecations`, `GET` `/_migration/deprecations`
 ### [Prometheus](https://www.elastic.co/docs/api/elasticsearch/v9/group/endpoint-prometheus)
 
+- [Ingest Prometheus remote write data](https://www.elastic.co/docs/api/elasticsearch/v9/operation/operation-prometheus-remote-write): `POST` `/_prometheus/metrics/{dataset}/{namespace}/api/v1/write`, `POST` `/_prometheus/metrics/{dataset}/api/v1/write`, `POST` `/_prometheus/api/v1/write`
 - [Get Prometheus label values](https://www.elastic.co/docs/api/elasticsearch/v9/operation/operation-prometheus-label-values): `GET` `/_prometheus/{index}/api/v1/label/{name}/values`, `GET` `/_prometheus/api/v1/label/{name}/values`
 - [Get Prometheus label names](https://www.elastic.co/docs/api/elasticsearch/v9/operation/operation-prometheus-labels): `POST` (also `GET`) `/_prometheus/{index}/api/v1/labels`, `POST` (also `GET`) `/_prometheus/api/v1/labels`
 - [Get Prometheus metric metadata](https://www.elastic.co/docs/api/elasticsearch/v9/operation/operation-prometheus-metadata): `GET` `/_prometheus/{index}/api/v1/metadata`, `GET` `/_prometheus/api/v1/metadata`
